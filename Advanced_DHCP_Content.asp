@@ -671,13 +671,13 @@ function applyRule(){
 		
 		Object.keys(manually_dhcp_list_array).forEach(function(key){
 			if(manually_dhcp_list_array[key].dns.length > 0 && manually_dhcp_list_array[key].hostname.length >= 0){
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key.split(".")[3] + ">" + manually_dhcp_list_array[key].hostname + ">" + manually_dhcp_list_array[key].dns + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">" + manually_dhcp_list_array[key].hostname + ">" + manually_dhcp_list_array[key].dns + ">";
 			}
 			else if(manually_dhcp_list_array[key].dns.length == 0 && manually_dhcp_list_array[key].hostname.length > 0){
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key.split(".")[3] + ">" + manually_dhcp_list_array[key].hostname + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">" + manually_dhcp_list_array[key].hostname + ">";
 			}
 			else{
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key.split(".")[3] + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">";
 			}
 		});
 		
@@ -773,17 +773,6 @@ function validate_dhcp_range(ip_obj){
 	var subnet_head, subnet_end;
 	
 	if(ip_num <= 0){
-		alert(ip_obj.value+" is not a valid IP address!");
-		ip_obj.value = "";
-		ip_obj.focus();
-		ip_obj.select();
-		return 0;
-	}
-	
-	subnet_head = getSubnet(document.form.lan_ipaddr.value, document.form.lan_netmask.value, "head");
-	subnet_end = getSubnet(document.form.lan_ipaddr.value, document.form.lan_netmask.value, "end");
-	
-	if(ip_num <= subnet_head || ip_num >= subnet_end){
 		alert(ip_obj.value+" is not a valid IP address!");
 		ip_obj.value = "";
 		ip_obj.focus();
