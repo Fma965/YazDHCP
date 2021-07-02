@@ -23,7 +23,7 @@ You must be running firmware Merlin 384.15/384.13_4 [Asuswrt-Merlin](https://asu
 Using your preferred SSH client/terminal, copy and paste the following command, then press Enter:
 
 ```sh
-/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/jackyaz/YazDHCP/master/YazDHCP.sh" -o "/jffs/scripts/YazDHCP" && chmod 0755 /jffs/scripts/YazDHCP && /jffs/scripts/YazDHCP install
+/usr/sbin/curl --retry 3 "https://raw.githubusercontent.com/Fma965/YazDHCP/master/YazDHCP.sh" -o "/jffs/scripts/YazDHCP" && chmod 0755 /jffs/scripts/YazDHCP && /jffs/scripts/YazDHCP install
 ```
 
 ## Usage
