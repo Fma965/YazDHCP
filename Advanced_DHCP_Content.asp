@@ -1105,7 +1105,7 @@ function parse_vpnc_dev_policy_list(_oriNvram){
 <tr>
 <td bgcolor="#4D595D" valign="top">
 <div>&nbsp;</div>
-<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP</div>
+<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP (Modded by Fma965 for VLAN Support)</div>
 <div style="margin:10px 0 10px 5px;" class="splitLine"></div>
 <div class="formfontdesc">DHCP (Dynamic Host Configuration Protocol) is a protocol for the automatic configuration used on IP networks. The DHCP server can assign each client an IP address and informs the client of the of DNS server IP and default gateway IP. Router supports up to 253 IP addresses for your local network.</div>
 <div id="router_in_pool" class="formfontdesc" style="color:#FFCC00;display:none;">WARNING: The router's IP address is within your pool! <span id="LANIP"></span> </div>
