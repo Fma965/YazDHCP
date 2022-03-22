@@ -21,6 +21,22 @@ thead.collapsible-jquery {
   outline: none;
   cursor: pointer;
 }
+.sort_border {
+  position: relative;
+  cursor: pointer;
+}
+.sort_border:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  left: 0;
+  border-top: 1px solid #FC0;
+  top: 0;
+}
+.sort_border.decrease:before {
+  bottom: 0;
+  top: initial;
+}
 </style>
 <script language="JavaScript" type="text/javascript" src="/ext/shared-jy/jquery.js"></script>
 <script language="JavaScript" type="text/javascript" src="/ext/shared-jy/d3.js"></script>
@@ -48,7 +64,7 @@ function LoadCustomSettings(){
 	}
 }
 
-$(function (){
+$(function(){
 	if(amesh_support && (isSwMode("rt") || isSwMode("ap")) && ameshRouter_support){
 		addNewScript('/require/modules/amesh.js');
 	}
@@ -152,14 +168,15 @@ function ParseCSVData(data){
 	var csvContent = "MAC,IP,HOSTNAME,DNS\n";
 	var settingslength = 0;
 	for(var i = 0; i < data.length; i++){
+		var ipvalue = data[i].IP;
 		if(data[i].DNS.length > 0 && data[i].HOSTNAME.length >= 0){
-			settingslength+=(data[i].MAC+">"+data[i].IP.split(".")[3]+">"+data[i].HOSTNAME+">"+data[i].DNS+">").length;
+			settingslength+=(data[i].MAC+">"+ipvalue+">"+data[i].HOSTNAME+">"+data[i].DNS+">").length;
 		}
 		else if(data[i].DNS.length == 0 && data[i].HOSTNAME.length > 0){
-			settingslength+=(data[i].MAC+">"+data[i].IP.split(".")[3]+">"+data[i].HOSTNAME+">").length;
+			settingslength+=(data[i].MAC+">"+ipvalue+">"+data[i].HOSTNAME+">").length;
 		}
 		else{
-			settingslength+=(data[i].MAC+">"+data[i].IP.split(".")[3]+">").length;
+			settingslength+=(data[i].MAC+">"+ipvalue+">").length;
 		}
 		var dataString = data[i].MAC+","+data[i].IP+","+data[i].HOSTNAME+","+data[i].DNS;
 		csvContent += i < data.length-1 ? dataString + '\n' : dataString;
@@ -671,14 +688,22 @@ function applyRule(){
 		dhcp_hostnames_array = [];
 		
 		Object.keys(manually_dhcp_list_array).forEach(function(key){
+			var ipvalue = key;
+			/* 
+			REMOVE UNEEDED CHECK, JUST USE FULL IP ALWAYS
+			if(document.form.lan_netmask.value == "255.255.255.0"){
+				ipvalue = key.split(".")[3]
+			}
+			*/ 
+
 			if(manually_dhcp_list_array[key].dns.length > 0 && manually_dhcp_list_array[key].hostname.length >= 0){
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">" + manually_dhcp_list_array[key].hostname + ">" + manually_dhcp_list_array[key].dns + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + ipvalue + ">" + manually_dhcp_list_array[key].hostname + ">" + manually_dhcp_list_array[key].dns + ">";
 			}
 			else if(manually_dhcp_list_array[key].dns.length == 0 && manually_dhcp_list_array[key].hostname.length > 0){
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">" + manually_dhcp_list_array[key].hostname + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + ipvalue + ">" + manually_dhcp_list_array[key].hostname + ">";
 			}
 			else{
-				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + key + ">";
+				document.form.YazDHCP_clients.value += "<" + manually_dhcp_list_array[key].mac + ">" + ipvalue + ">";
 			}
 		});
 		
@@ -781,6 +806,20 @@ function validate_dhcp_range(ip_obj){
 		return 0;
 	}
 	
+	/*
+	REMOVE CHECK THAT PREVENTS MOD WORKING
+	subnet_head = getSubnet(document.form.lan_ipaddr.value, document.form.lan_netmask.value, "head");
+	subnet_end = getSubnet(document.form.lan_ipaddr.value, document.form.lan_netmask.value, "end");
+	
+	if(ip_num <= subnet_head || ip_num >= subnet_end){
+		alert(ip_obj.value+" is not a valid IP address!");
+		ip_obj.value = "";
+		ip_obj.focus();
+		ip_obj.select();
+		return 0;
+	}
+	*/
+
 	return 1;
 }
 
@@ -1120,7 +1159,7 @@ function sortClientIP(){
 <tr>
 <td bgcolor="#4D595D" valign="top">
 <div>&nbsp;</div>
-<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP (Modded by Fma965 for VLAN Support) - Test</div>
+<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP (Modded by Fma965 for VLAN Support)</div>
 <div style="margin:10px 0 10px 5px;" class="splitLine"></div>
 <div class="formfontdesc">DHCP (Dynamic Host Configuration Protocol) is a protocol for the automatic configuration used on IP networks. The DHCP server can assign each client an IP address and informs the client of the of DNS server IP and default gateway IP. Router supports up to 253 IP addresses for your local network.</div>
 <div id="router_in_pool" class="formfontdesc" style="color:#FFCC00;display:none;">WARNING: The router's IP address is within your pool! <span id="LANIP"></span> </div>
