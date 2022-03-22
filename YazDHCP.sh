@@ -15,7 +15,7 @@
 
 ### Start of script variables ###
 readonly SCRIPT_NAME="YazDHCP"
-readonly SCRIPT_VERSION="v1.0.2"
+readonly SCRIPT_VERSION="v1.0.5"
 SCRIPT_BRANCH="master"
 SCRIPT_REPO="https://raw.githubusercontent.com/Fma965/$SCRIPT_NAME/$SCRIPT_BRANCH"
 readonly SCRIPT_DIR="/jffs/addons/$SCRIPT_NAME.d"
@@ -56,6 +56,11 @@ Firmware_Version_Check(){
 	fi
 }
 
+### Code for this function courtesy of https://github.com/decoderman- credit to @thelonelycoder ###
+Firmware_Version_Number(){
+	echo "$1" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'
+}
+############################################################################
 ### Code for these functions inspired by https://github.com/Adamm00 - credit to @Adamm ###
 Check_Lock(){
 	if [ -f "/tmp/$SCRIPT_NAME.lock" ]; then
@@ -158,7 +163,7 @@ Conf_FromSettings(){
 }
 
 Set_Version_Custom_Settings(){
-	SETTINGSFILE=/jffs/addons/custom_settings.txt
+	SETTINGSFILE="/jffs/addons/custom_settings.txt"
 	case "$1" in
 		local)
 			if [ -f "$SETTINGSFILE" ]; then
@@ -823,6 +828,7 @@ Menu_Install(){
 	Auto_DNSMASQ create 2>/dev/null
 	Shortcut_Script create
 	
+	echo "MAC,IP,HOSTNAME,DNS" > "$SCRIPT_CONF"
 	Export_FW_DHCP_JFFS
 	
 	Print_Output true "$SCRIPT_NAME installed successfully!" "$PASS"
