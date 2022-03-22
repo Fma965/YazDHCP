@@ -497,7 +497,6 @@ Download_File(){
 
 Mount_WebUI(){
 	umount /www/Advanced_DHCP_Content.asp 2>/dev/null
-	
 	mount -o bind "$SCRIPT_DIR/Advanced_DHCP_Content.asp" /www/Advanced_DHCP_Content.asp
 }
 
