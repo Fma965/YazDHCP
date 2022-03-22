@@ -169,6 +169,12 @@ function ParseCSVData(data){
 	var settingslength = 0;
 	for(var i = 0; i < data.length; i++){
 		var ipvalue = data[i].IP;
+		/*
+		Remove uneeded check, just use full IP always
+		if(document.form.lan_netmask.value == "255.255.255.0"){
+			ipvalue = data[i].IP.split(".")[3]
+		}
+		*/
 		if(data[i].DNS.length > 0 && data[i].HOSTNAME.length >= 0){
 			settingslength+=(data[i].MAC+">"+ipvalue+">"+data[i].HOSTNAME+">"+data[i].DNS+">").length;
 		}
@@ -1159,7 +1165,7 @@ function sortClientIP(){
 <tr>
 <td bgcolor="#4D595D" valign="top">
 <div>&nbsp;</div>
-<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP (Modded by Fma965 for VLAN Support)</div>
+<div class="formfonttitle" id="scripttitle">LAN - DHCP Server - Enhanced by YazDHCP</div>
 <div style="margin:10px 0 10px 5px;" class="splitLine"></div>
 <div class="formfontdesc">DHCP (Dynamic Host Configuration Protocol) is a protocol for the automatic configuration used on IP networks. The DHCP server can assign each client an IP address and informs the client of the of DNS server IP and default gateway IP. Router supports up to 253 IP addresses for your local network.</div>
 <div id="router_in_pool" class="formfontdesc" style="color:#FFCC00;display:none;">WARNING: The router's IP address is within your pool! <span id="LANIP"></span> </div>
